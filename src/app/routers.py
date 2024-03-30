@@ -4,7 +4,10 @@ import hashlib
 import requests
 import jwt
 import traceback
-from flask import Flask, jsonify, render_template, request, redirect, url_for, Response, flash, session
+from flask import (
+    Flask, jsonify, render_template, request, redirect,
+    url_for, Response, flash, session, send_from_directory
+)
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import generate_csrf, CSRFError
 from injector import Injector
@@ -297,6 +300,14 @@ def get_user(user_id: str, query_service: IGetUserQuery) -> tuple[Response, int]
         return jsonify({'error': 'Internal server error'}), 500
 
 
+def send_manifest():
+    return send_from_directory('static', 'manifest.json')
+
+
+def send_sw():
+    return send_from_directory('static', 'sw.js')
+
+
 def configure_routing(app: Flask, login_manager: LoginManager, injector: Injector) -> None:
     def _load_login_user(login_user_id: str) -> LoginUser:
         """
@@ -385,3 +396,7 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
 
     app.route('/logout')(execute_logout)
     app.route('/user/<string:user_id>', methods=['GET'])(_get_user)
+
+    # PWA対応
+    app.route('/sw.js')(send_sw)
+    app.route('/manifest.json')(send_manifest)
