@@ -1,414 +1,115 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-    <title>🧑‍✈️ {{ current_user.user_name }}  |  Todos</title>
-</head>
-<body>
-
-<div class="header">
-    <a href="{{ url_for('home_page_load') }}">
-        <img src="{{ url_for('static', filename='images/todo-app-logo.svg') }}" alt="todo-app" class="app-logo">
-    </a>
-    <div id="profile-icon" class="profile-icon">
-        <p>🧑‍✈️</p>
-    </div>
-</div>
-
-<div class="container">
-
+{% extends "base.html" %}
+{% block body %}
     <!-- 検索バー -->
     <div class="search-bar">
         <input type="text" placeholder="キーワードで検索..." id="searchInput">
         <button type="submit" >検索</button>
     </div>
 
+    <!-- TodoTab -->
     <div class="tabs">
         <button class="tab-link" onclick="openTab(event, 'Incomplete')">未完了 🙅</button>
         <button class="tab-link" onclick="openTab(event, 'Complete')">完了 ✅</button>
     </div>
 
+    <!-- TodoList -->
     <div id="Incomplete" class="tab-content">
-        <ul>
-            <li>
-                <a href="#" class="todo-item">東バン会費入金
-                    <p class="reg-todo-date">登録日：2024/03/23</p>
-                    <p class="due-date">期日：2024/03/25</p>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="todo-item">ビバラ申し込み
-                    <p class="reg-todo-date">登録日：2024/03/23</p>
-                    <p class="due-date">期日：2024/03/26</p>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="todo-item">バンド練習日程決め
-                    <p class="reg-todo-date">登録日：2024/03/23</p>
-                    <p class="due-date">期日：なし</p>
-                </a>
-            </li>
-        </ul>
+        {% if incomplete_todos %}
+            <ul>
+                {% for todo in incomplete_todos %}
+                    <li>
+                        <div class="todo-item" onclick="toggleTodoDetails(event)">{{ todo.todo_title }}
+                            <!-- 詳細 -->
+                            {% if todo.todo_details %}
+                                <div class="todo-detail" hidden>{{ todo.todo_details|safe }}</div>
+                            {% else %}
+                                <p class="todo-detail" hidden>Todoの詳細はありません。</p>
+                            {% endif %}
+
+                            <!-- 期日 -->
+                            {% if todo.due_date %}
+                                <p class="due-date">期日：{{ todo.due_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                            {% else %}
+                                <p class="due-date non-due-date">期日なし</p>
+                            {% endif %}
+
+                            <!-- 登録日 -->
+                            <p class="reg-todo-date" hidden>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}</p>
+
+                            <!-- 編集ボタン -->
+                            <div class="todo-edit-buttons" hidden>
+                                <form action="/todo/delete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-del-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                                <form action="/" method="get" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+                                <form action="/todo/complete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-complete-btn">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>未完了のTodoは現在ありません。</p>
+        {% endif %}
     </div>
 
     <div id="Complete" class="tab-content" style="display: none;">
-        <ul>
-            <li>
-                <a href="#" class="todo-item">昼ご飯を食べる
-                    <p>登録日：2024/03/23<br>完了日✅：2024/03/34</p>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="todo-item">朝ごはんを食べる
-                    <p>登録日：2024/03/23<br>完了日✅：2024/03/34</p>
-                </a>
-            </li>
-        </ul>
+        {% if completed_todos %}
+            <ul>
+                {% for todo in completed_todos %}
+{#                    <li>#}
+{#                        <a href="#" class="todo-item">{{ todo.todo_title }}#}
+{#                            <p>登録日：{{ todo.registration_date }}<br>完了日✅：2024/03/34</p>#}
+{#                        </a>#}
+{#                    </li>#}
+
+                    <li>
+                        <div class="todo-item" onclick="toggleTodoDetails(event)">{{ todo.todo_title }}
+                            {% if todo.todo_details %}
+                                <div class="todo-detail" hidden>{{ todo.todo_details|safe }}</div>
+                            {% else %}
+                                <p class="todo-detail" hidden>Todoの詳細はありません。</p>
+                            {% endif %}
+                            <p>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}<br>完了日✅：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                            <div class="todo-edit-buttons" hidden>
+                                <form action="/todo/delete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-del-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                                <form action="/" method="get" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>完了済みのTodoはありません。</p>
+        {% endif %}
     </div>
-</div>
 
-<!-- Todo追加ボタン -->
-<div class="add-todo-button" id="add-todo-button">+</div>
+    <!-- Todo追加ボタン -->
+    <a href="{{ url_for('create_todo_page_load') }}" style="text-decoration: none; color: inherit;">
+        <div class="add-todo-button" id="add-todo-button">+</div>
+    </a>
 
-<!-- モーダル -->
-<div id="mask" class="hidden">
-</div>
-<div id="modal" class="hidden modal">
-    <div class="user-profile-menu-list">
-        🧑‍✈️‍{{ current_user.user_name }}さん
-    </div>
-    <div class="user-profile-menu-list user-setting">
-        <a class="user-setting" href="#">ユーザ設定</a>
-    </div>
-    <div class="user-profile-menu-list">
-        <a class="logout" href="{{ url_for('execute_logout') }}">ログアウト</a>
-    </div>
-    <div id="close-profile" class="close-profile">
-        <p>✖</p>
-    </div>
-</div>
-<footer>
-    © 2024 TODO by Reo Kobayashi a.k.a kbr1009
-</footer>
-</body>
-<style>
-    /* ベースとなるスタイル設定 */
-    * {
-        box-sizing: border-box; /* 全要素にborder-boxモデルを適用 */
-        margin: 0; /* マージンをリセット */
-        padding: 0; /* パディングをリセット */
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        background-color: snow;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        /*
-        background-color: #fff;
-         */
-        padding: 10px 20px;
-        /*
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-         */
-        display: flex;
-        /*justify-content: space-between; */
-        align-items: center;
-        z-index: 1000;
-    }
-    .app-logo {
-        height: 20px; /* ロゴの高さを設定 */
-        width: auto; /* 幅は自動で調整 */
-    }
-
-    .profile-icon {
-        margin-left: auto; /* ログアウトボタンを右寄せに */
-        display: block;
-        padding: 3px;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    .profile-icon p{
-        font-size: 20px;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 1000px;
-        /*
-        background-color: #e9e9e9;
-        */
-        padding: 20px;
-        margin: 50px auto 0; /* ヘッダーの高さに応じて調整 */
-        box-sizing: border-box;
-    }
-
-    /* 検索バー */
-    .search-bar {
-        height: 40px;
-        margin-bottom: 20px; /* タブボタンとの間にスペースを設ける */
-        display: flex;
-        justify-content: center; /* 検索バーを中央に配置 */
-        width: 100%; /* 検索バーの幅をコンテナに合わせる */
-        max-width: 1000px; /* 検索バーの最大幅をtab-contentの横幅に合わせる */
-        box-sizing: border-box; /* ボーダーやパディングを幅に含める */
-    }
-
-    .search-bar input[type="text"] {
-        flex-grow: 1; /* 入力欄が利用可能なスペースを埋めるように伸縮 */
-        margin-right: 10px; /* ボタンとの間隔 */
-        padding: 10px; /* 入力欄のパディング */
-        font-size: 16px; /* フォントサイズを16px以上に設定 */
-        border: 1px solid #ccc; /* 枠線 */
-        border-radius: 4px; /* 角丸 */
-    }
-
-    .search-bar button {
-        padding: 5px 15px; /* ボタン内のパディングを調整 */
-        background-color: cornflowerblue;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        white-space: nowrap; /* ボタン内のテキストを折り返さない */
-        font-size: 16px; /* フォントサイズを16px以上に設定 */
-        font-weight: bold;
-    }
-
-    .search-bar button:hover {
-        background-color: #0056b3;
-    }
-
-    /* タブとタブコンテンツのスタイル設定 */
-    .tabs {
-        overflow: hidden;
-        display: flex; /* Flexboxを使用してタブを横並びに */
-    }
-
-    .tab-link {
-        flex-grow: 1; /* タブボタンが容器の幅を均等に埋めるように */
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 10px; /* ボタンの内側の余白 */
-        transition: 0.3s;
-        font-size: 17px;
-        font-weight: bold;
-        text-align: center; /* テキストを中央揃えに */
-    }
-
-    .tab-link:first-child {
-        border-top-left-radius: 5px; /* 未完了ボタンの左上にのみ丸みを付ける */
-    }
-
-    .tab-link:last-child {
-        border-top-right-radius: 5px; /* 完了ボタンの右上にのみ丸みを付ける */
-    }
-
-    .tab-link:hover {
-        background-color: #ddd; /* ホバー時の背景色を少し濃いグレーに */
-    }
-
-    .tab-link.inactive {
-        opacity: 0.5; /* 非アクティブなボタンの透明度を下げる */
-    }
-
-    .tab-link.active {
-        background-color: cornflowerblue; /* アクティブなボタンの色を濃いグレーに設定 */
-        color: white; /* アクティブなボタンのテキスト色を白に設定 */
-    }
-
-    .tab-content {
-        display: none;
-        padding: 20px;
-        border: 1px solid #ccc;
-        /*
-        background-color: #fff;
-         */
-        border-bottom-left-radius: 5px; /* 下側左の丸み */
-        border-bottom-right-radius: 5px; /* 下側右の丸み */
-    }
-    .tab-content a{
-        font-weight: bold;
-    }
-    .tab-content p{
-        padding-top: 10px;
-        font-size: 12px;
-        font-weight: normal;
-    }
-
-    .todo-item .reg-todo-date{
-        padding-bottom: unset;
-    }
-    .todo-item .due-date{
-        padding-top: unset;
-    }
-
-    /* ToDoリストアイテムのスタイル設定 */
-    ul {
-        list-style-type: none; /* リストアイテムのマーカーを非表示に */
-    }
-
-    .todo-item {
-        display: block;
-        padding: 20px;
-        margin: 10px 0;
-        background-color: snow;
-        border: 1px solid #ddd;
-        border-radius: 5px; /* ToDoリスト項目の角を丸くする */
-        text-decoration: none;
-        color: black;
-    }
-
-    .todo-item:hover {
-        background-color: #e9e9e9;
-    }
-
-    #add-todo-button {
-        position: fixed; /* ボタンを画面に固定 */
-        right: 30px; /* 右から30pxの位置 */
-        bottom: 45px; /* 下から30pxの位置 */
-        width: 60px; /* ボタンの幅 */
-        height: 60px; /* ボタンの高さ */
-        border-radius: 50%; /* 円形にする */
-        background-color: cornflowerblue; /* ボタンの背景色 */
-        color: white; /* ボタンのテキスト色 */
-        font-size: 30px; /* テキストのサイズを大きく */
-        display: flex; /* Flexboxを使用 */
-        justify-content: center; /* 中央揃え */
-        align-items: center; /* アイテムを中央に配置 */
-        cursor: pointer; /* カーソルをポインターに */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 影をつける */
-        user-select: none; /* テキストの選択を無効に */
-    }
-
-    #add-todo-button:hover {
-        background-color: #0056b3; /* ホバー時の背景色 */
-    }
-
-
-    #mask {
-        background: rgba(0, 0, 0, 0.4);
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        z-index: 1;
-    }
-
-    .modal{
-        background: #fff;
-        max-height: 500px;
-        min-width: 200px;
-        padding: 20px;
-        border-radius: 8px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        margin: 0 auto;
-        z-index: 2;
-        transition: 0.4s;
-        text-align:center;
-    }
-
-    #mask.hidden {
-        display: none;
-    }
-
-    .modal.hidden {
-        display: none;
-    }
-
-    .user-profile-menu-list{
-        padding: 10px;
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    .user-profile-menu-list a{
-        text-decoration: none; /* 下線をなくす */
-    }
-
-    .user-profile-menu-list.user-setting{
-        color: cornflowerblue;
-        cursor: pointer;
-    }
-
-    .user-profile-menu-list a.logout{
-        color: red;
-        cursor: pointer;
-    }
-
-    .close-profile{
-        padding-top: 20px;
-        cursor: pointer;
-    }
-
-    /* フッタースタイル */
-    footer {
-        background-color: snow;
-        color: black; /* テキスト色 */
-        text-align: center; /* テキストを中央揃え */
-        padding: 10px; /* 上下左右のパディング */
-        position: fixed; /* ページの下部に固定 */
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-
-</style>
-<script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tab-link");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.add("inactive"); // すべてのタブに先にinactiveを適用
-            tablinks[i].classList.remove("active"); // activeクラスを削除
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.classList.remove("inactive"); // クリックされたタブからinactiveを除去
-        evt.currentTarget.classList.add("active"); // そして、activeを追加
-
-        // "addTodoButton" の表示/非表示を切り替える
-        var addButton = document.getElementById("add-todo-button");
-        if (tabName === "Complete") {
-            // 完了タブが選択されたらボタンを非表示にする
-            addButton.style.display = "none";
-        } else {
-            // それ以外のタブが選択されたらボタンを表示する
-            addButton.style.display = "flex"; // 以前にflexを指定していたため
-        }
-    }
-
-    // 初期タブを開く
-    document.getElementsByClassName("tab-link")[0].click();
-
-    const profileIcon = document.getElementById("profile-icon");
-    const closeModal = document.getElementById('close-profile');
-    profileIcon.onclick = event => {
-        let modal = document.getElementById('modal');
-        let mask = document.getElementById('mask');
-        modal.classList.remove('hidden');
-        mask.classList.remove('hidden');
-
-        closeModal.addEventListener('click', function () {
-            modal.classList.add('hidden');
-            mask.classList.add('hidden');
-        });
-    }
-</script>
-</html>
+{% endblock %}

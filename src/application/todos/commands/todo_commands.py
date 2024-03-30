@@ -13,8 +13,9 @@ class CreateNewTodoCommand(ICreateNewTodoCommand):
         try:
             # ドメインオブジェクトの組み立て
             new_todo: Todo = Todo.create_new_todo(request.user_id,
-                                                  TodoTitle(request.todo_title),
-                                                  DueDate(request.due_date),
+                                                  TodoTitle(value=request.todo_title),
+                                                  DueDate(value=request.due_date,
+                                                          registration_date=datetime.now()),
                                                   request.todo_details, request.tags)
         except Exception as e:
             raise ValueError(f"{e}")
@@ -45,8 +46,9 @@ class AmendTodoCommand(IAmendTodoCommand):
 
         try:
             # ドメインオブジェクトの編集メソッドを使用してTodoを編集
-            todo.amend_todo(TodoTitle(request.todo_title),
-                            DueDate(request.due_date),
+            todo.amend_todo(TodoTitle(value=request.todo_title),
+                            DueDate(value=request.due_date,
+                                    registration_date=datetime.now()),
                             request.todo_details, request.tag_ids)
         except Exception as e:
             raise ValueError(f"{e}")

@@ -17,9 +17,11 @@ class TodoRepository(ITodoRepository):
         todo_db = TodoDBModel(
             id=str(todo.todo_id.value),
             title=todo.todo_title.value,
+            created_at=todo.created_at,
             details=todo.todo_details,
             due_date=todo.due_date.value if todo.due_date else None,
             is_completed=todo.is_completed,
+            completed_at=todo.completed_at,
             user_id=todo.user_id,
         )
 
@@ -72,10 +74,12 @@ class TodoRepository(ITodoRepository):
             todo_id=TodoId(todo_db.id),
             user_id=todo_db.user_id,
             todo_title=TodoTitle(todo_db.title),
-            due_date=None if not todo_db.due_date else DueDate(todo_db.due_date),
+            created_at=todo_db.created_at,
+            due_date=None if not todo_db.due_date else DueDate(value=todo_db.due_date,
+                                                               registration_date=todo_db.created_at),
             todo_details=todo_db.details,
             is_completed=todo_db.is_completed,
-            is_deleted=todo_db.is_deleted,
+            completed_at=todo_db.completed_at,
             tag_ids=[category.id for category in todo_db.categories]  # カテゴリのIDリストを抽出
         )
         return todo

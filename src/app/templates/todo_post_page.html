@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="back-todo-past-to-home">
+        <a href="{{ url_for('home_page_load') }}">
+            <i class="fas fa-arrow-left">戻る</i>
+        </a>
+    </div>
+    <form action="/todo" method="post" class="todo-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="form-group">
+            <label for="todo-title">タイトル</label>
+            <input type="text" id="todo-title" name="todo_title">
+        </div>
+        <div class="form-group">
+            <label for="todo-details">詳細</label>
+            <textarea id="todo-details" name="todo_detail" rows="8"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="todo-due-date">期日</label>
+            <input type="datetime-local" id="todo-due-date" name="due_date_time">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit-button">保存</button>
+        </div>
+    </form>
+
+    <!-- CKEditorのスクリプトを追加 -->
+    <script src="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js"></script>
+{% endblock %}

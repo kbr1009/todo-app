@@ -1,0 +1,397 @@
+    /* ベースとなるスタイル設定 */
+    * {
+        box-sizing: border-box; /* 全要素にborder-boxモデルを適用 */
+        margin: 0; /* マージンをリセット */
+        padding: 0; /* パディングをリセット */
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        background-color: snow;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        z-index: 1000;
+    }
+    .app-logo {
+        height: 20px; /* ロゴの高さを設定 */
+        width: auto; /* 幅は自動で調整 */
+    }
+
+    .profile-icon {
+        margin-left: auto; /* ログアウトボタンを右寄せに */
+        display: block;
+        padding: 3px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .profile-icon p{
+        font-size: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        padding: 20px;
+        margin: 50px auto 0; /* ヘッダーの高さに応じて調整 */
+        box-sizing: border-box;
+    }
+
+    /* 検索バー */
+    .search-bar {
+        height: 40px;
+        margin-bottom: 20px; /* タブボタンとの間にスペースを設ける */
+        display: flex;
+        justify-content: center; /* 検索バーを中央に配置 */
+        width: 100%; /* 検索バーの幅をコンテナに合わせる */
+        max-width: 1000px; /* 検索バーの最大幅をtab-contentの横幅に合わせる */
+        box-sizing: border-box; /* ボーダーやパディングを幅に含める */
+    }
+
+    .search-bar input[type="text"] {
+        flex-grow: 1; /* 入力欄が利用可能なスペースを埋めるように伸縮 */
+        margin-right: 10px; /* ボタンとの間隔 */
+        padding: 10px; /* 入力欄のパディング */
+        font-size: 16px; /* フォントサイズを16px以上に設定 */
+        border: 1px solid #ccc; /* 枠線 */
+        border-radius: 4px; /* 角丸 */
+    }
+
+    .search-bar button {
+        padding: 5px 15px; /* ボタン内のパディングを調整 */
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap; /* ボタン内のテキストを折り返さない */
+        font-size: 16px; /* フォントサイズを16px以上に設定 */
+        font-weight: bold;
+    }
+
+    .search-bar button:hover {
+        background-color: #0056b3;
+    }
+
+    /* タブとタブコンテンツのスタイル設定 */
+    .tabs {
+        overflow: hidden;
+        display: flex; /* Flexboxを使用してタブを横並びに */
+    }
+
+    .tab-link {
+        flex-grow: 1; /* タブボタンが容器の幅を均等に埋めるように */
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 10px; /* ボタンの内側の余白 */
+        transition: 0.3s;
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center; /* テキストを中央揃えに */
+    }
+
+    .tab-link:first-child {
+        border-top-left-radius: 5px; /* 未完了ボタンの左上にのみ丸みを付ける */
+    }
+
+    .tab-link:last-child {
+        border-top-right-radius: 5px; /* 完了ボタンの右上にのみ丸みを付ける */
+    }
+
+    .tab-link:hover {
+        background-color: #ddd; /* ホバー時の背景色を少し濃いグレーに */
+    }
+
+    .tab-link.inactive {
+        opacity: 0.5; /* 非アクティブなボタンの透明度を下げる */
+    }
+
+    .tab-link.active {
+        background-color: cornflowerblue; /* アクティブなボタンの色を濃いグレーに設定 */
+        color: white; /* アクティブなボタンのテキスト色を白に設定 */
+    }
+
+    .tab-content {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+        /*
+        background-color: #fff;
+         */
+        border-bottom-left-radius: 5px; /* 下側左の丸み */
+        border-bottom-right-radius: 5px; /* 下側右の丸み */
+    }
+    .tab-content a{
+        font-weight: bold;
+    }
+    .tab-content p{
+        padding-top: 10px;
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .todo-item .reg-todo-date{
+        padding-top: unset;
+    }
+    .todo-item .due-date{
+        padding-bottom: unset;
+    }
+
+    /* ToDoリストアイテムのスタイル設定 */
+    ul {
+        list-style-type: none; /* リストアイテムのマーカーを非表示に */
+    }
+
+    .todo-item {
+        display: block;
+        padding: 20px;
+        margin: 10px 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px; /* ToDoリスト項目の角を丸くする */
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+    }
+
+    .todo-edit-buttons{
+        padding-top: 10px;
+    }
+    .todo-edit-buttons button{
+        padding: 5px 15px; /* ボタン内のパディングを調整 */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap; /* ボタン内のテキストを折り返さない */
+        font-size: 16px; /* フォントサイズを16px以上に設定 */
+        font-weight: bold;
+    }
+    .todo-edit-buttons .todo-edit-btn-form {
+        display: inline-block; /* 各フォームを横並びに表示 */
+    }
+    .todo-edit-buttons .todo-del-btn{
+        background-color: red;
+        color: white;
+    }
+    .todo-edit-buttons .todo-edit-btn{
+        background-color: cornflowerblue;
+        color: white;
+        margin-left: 3px;
+    }
+    .todo-edit-buttons .todo-complete-btn{
+        background-color: #4CAF50;
+        color: white;
+        margin-left: 3px;
+    }
+
+    .todo-item .due-date{
+        color: red;
+    }
+    .todo-item .non-due-date{
+        color: black;
+    }
+
+    .todo-item:hover {
+        /*background-color: #e9e9e9;*/
+    }
+
+    #add-todo-button {
+        position: fixed; /* ボタンを画面に固定 */
+        right: 30px; /* 右から30pxの位置 */
+        bottom: 45px; /* 下から30pxの位置 */
+        width: 60px; /* ボタンの幅 */
+        height: 60px; /* ボタンの高さ */
+        border-radius: 50%; /* 円形にする */
+        background-color: cornflowerblue; /* ボタンの背景色 */
+        color: white; /* ボタンのテキスト色 */
+        font-size: 30px; /* テキストのサイズを大きく */
+        display: flex; /* Flexboxを使用 */
+        justify-content: center; /* 中央揃え */
+        align-items: center; /* アイテムを中央に配置 */
+        cursor: pointer; /* カーソルをポインターに */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 影をつける */
+        user-select: none; /* テキストの選択を無効に */
+    }
+
+    #add-todo-button:hover {
+        background-color: #0056b3; /* ホバー時の背景色 */
+    }
+
+
+    #mask {
+        background: rgba(0, 0, 0, 0.4);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .modal{
+        background: #fff;
+        max-height: 500px;
+        min-width: 200px;
+        padding: 20px;
+        border-radius: 8px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        margin: 0 auto;
+        z-index: 2;
+        transition: 0.4s;
+        text-align:center;
+    }
+
+    #mask.hidden {
+        display: none;
+    }
+
+    .modal.hidden {
+        display: none;
+    }
+
+    .user-profile-menu-list{
+        padding: 10px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .user-profile-menu-list a{
+        text-decoration: none; /* 下線をなくす */
+    }
+
+    .user-profile-menu-list.user-setting{
+        color: cornflowerblue;
+        cursor: pointer;
+    }
+
+    .user-profile-menu-list a.logout{
+        color: red;
+        cursor: pointer;
+    }
+
+    .close-profile{
+        padding-top: 20px;
+        cursor: pointer;
+    }
+
+
+    .back-todo-past-to-home {
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+    }
+    .back-todo-past-to-home a {
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* 各入力フィールドの間隔 */
+    }
+
+    .form-group label {
+        display: block; /* ラベルをブロック要素に */
+        margin-bottom: 5px; /* ラベルと入力フィールドの間隔 */
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="datetime-local"],
+    .form-group textarea {
+        width: 100%; /* 入力フィールドの幅をコンテナに合わせる */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+
+    .todo-item-container {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .slide-container {
+        display: flex;
+        align-items: center;
+        transition: margin-right 0.3s ease; /* 右マージンでスライド */
+    }
+
+    .todo-item {
+        flex-grow: 1; /* コンテナの残り全体を使用 */
+        transition: margin-right 0.3s ease;
+        padding-right: 100px; /* 完了ボタンの幅だけ右パディングを追加 */
+    }
+
+
+    .complete-btn {
+        width: 60px;
+        height: 110px;
+        background-color: #4CAF50; /* ボタンの背景色 */
+        border-radius: 5%; /* ボタンを円形に */
+        color: white; /* ボタンのテキスト色 */
+        border: none; /* ボタンの枠線を消す */
+        margin-left: -100px; /* ボタンを非表示にする */
+        transition: margin 0.3s ease;
+        opacity: 0; /* ボタンを透明にして非表示に */
+        cursor: pointer; /* カーソルを指に */
+
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        transform: translateY(-50%) translateX(100%); /* ボタンを右に隠す */
+    }
+
+    .todo-item-container:hover .slide-container {
+        margin-right: -100px; /* スライドコンテナのマージンを変えてボタン分ずらす */
+    }
+
+    .todo-item-container:hover .complete-btn {
+        opacity: 1; /* ホバー時にボタンを表示 */
+        transform: translateY(-50%) translateX(0%); /* ホバー時にボタンを表示位置に移動 */
+    }
+
+
+
+
+    /* フッタースタイル */
+    footer {
+        background-color: snow;
+        color: black; /* テキスト色 */
+        text-align: center; /* テキストを中央揃え */
+        padding: 10px; /* 上下左右のパディング */
+        position: fixed; /* ページの下部に固定 */
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }

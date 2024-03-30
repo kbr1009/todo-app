@@ -46,6 +46,8 @@ class CategoryDBModel(Base):
     id: Mapped[str] = mapped_column(NVARCHAR(36), primary_key=True)
     name: Mapped[str] = mapped_column(NVARCHAR(100))
     user_id: Mapped[str] = mapped_column(NVARCHAR(36), ForeignKey("users.id"))
+    tag_color: Mapped[str] = mapped_column(NVARCHAR(100))
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
 
     user: Mapped["UserDBModel"] = relationship("UserDBModel", back_populates="categories")
     todos: Mapped[list["TodoDBModel"]] = relationship(
@@ -57,11 +59,12 @@ class TodoDBModel(Base):
     id: Mapped[str] = mapped_column(NVARCHAR(36), primary_key=True)
     title: Mapped[str] = mapped_column(NVARCHAR(100))
     details: Mapped[str] = mapped_column(UnicodeText, nullable=True)
-    # 期日
     due_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     is_completed: Mapped[bool] = mapped_column(Boolean, default=False)
-    notify_days_before: Mapped[int] = Column(Integer, nullable=True)
+    completed_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    # notify_days_before: Mapped[int] = Column(Integer, nullable=True)
     user_id: Mapped[str] = mapped_column(NVARCHAR(36), ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     user: Mapped["UserDBModel"] = relationship("UserDBModel", back_populates="todos")
     categories: Mapped[list["CategoryDBModel"]] = relationship(

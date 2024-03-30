@@ -1,6 +1,12 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from src.domain.todos.todo_value_objects import *
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from src.domain.todos.todo_value_objects import (
+    TodoId,
+    TodoTitle,
+    DueDate
+)
 
 
 @dataclass
@@ -8,9 +14,11 @@ class Todo:
     todo_id: TodoId
     user_id: str
     todo_title: TodoTitle
+    created_at: datetime
     due_date: Optional[DueDate] = None
     todo_details: str = ""
     is_completed: bool = False
+    completed_at: datetime = None
     is_deleted: bool = False
     tag_ids: List[str] = field(default_factory=list)
 
@@ -29,6 +37,7 @@ class Todo:
             todo_id=TodoId.create(),
             user_id=user_id,
             todo_title=todo_title,
+            created_at=datetime.now(ZoneInfo('Asia/Tokyo')),
             due_date=due_date,
             todo_details=todo_details,
             is_completed=False,
@@ -48,6 +57,8 @@ class Todo:
 
     def complete_todo(self):
         self.is_completed = True
+        self.completed_at = datetime.now(ZoneInfo('Asia/Tokyo'))
 
     def undo_completion(self):
         self.is_completed = False
+        self.completed_at = None

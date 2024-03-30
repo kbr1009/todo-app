@@ -10,8 +10,8 @@ class CreateNewTodoRequest:
     """
     user_id: str
     todo_title: str
-    todo_details: str
-    due_date: datetime
+    todo_details: Optional[str] = None
+    due_date: Optional[datetime] = None
     tags: Optional[List[str]] = field(default_factory=list)
 
 
@@ -22,8 +22,8 @@ class AmendTodoRequest:
     """
     todo_id: str
     todo_title: str
-    todo_details: str
-    due_date: datetime
+    todo_details: Optional[str] = None
+    due_date: Optional[datetime] = None
     tag_ids: Optional[List[str]] = field(default_factory=list)
 
 

@@ -1,0 +1,25 @@
+<div class="header">
+    <a href="{{ url_for('home_page_load') }}">
+        <img src="{{ url_for('static', filename='images/todo-app-logo.svg') }}" alt="todo-app" class="app-logo">
+    </a>
+    <div id="profile-icon" class="profile-icon">
+        <p>🧑‍✈️</p>
+    </div>
+</div>
+<!-- ヘッダー モーダル -->
+<div id="mask" class="hidden">
+</div>
+<div id="modal" class="hidden modal">
+    <div class="user-profile-menu-list">
+        🧑‍✈️‍{{ current_user.user_name }}さん
+    </div>
+    <div class="user-profile-menu-list user-setting">
+        <a class="user-setting" href="#">ユーザ設定</a>
+    </div>
+    <div class="user-profile-menu-list">
+        <a class="logout" href="{{ url_for('execute_logout') }}">ログアウト</a>
+    </div>
+    <div id="close-profile" class="close-profile">
+        <p>✖</p>
+    </div>
+</div>

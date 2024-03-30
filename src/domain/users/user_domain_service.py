@@ -13,3 +13,11 @@ class UserDomainService:
         :return: ユーザーが重複していればTrue、そうでなければFalse
         """
         return self._user_repository.find_by_email_address(user.email_address.value) is not None
+
+    def is_duplicated_user_by_username(self, user: User) -> bool:
+        """
+        指定されたユーザー名が重複しているかどうかをチェックします。
+        :param user: チェックするユーザーオブジェクト
+        :return: ユーザーが重複していればTrue、そうでなければFalse
+        """
+        return self._user_repository.find_by_username(user.user_name.value) is not None
