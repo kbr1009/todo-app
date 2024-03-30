@@ -1,21 +1,36 @@
+# Python の公式イメージをベースイメージとして使用
 FROM python:3.9-slim
 
-# アプリケーションのソースコードをコピーするディレクトリを変更
+RUN apt-get update && apt-get install -y \
+    gnupg \
+    unixodbc \
+    unixodbc-dev \
+    g++ \
+    curl \
+    apt-transport-https \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql17 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# コンテナ内の作業ディレクトリを設定
 WORKDIR /app
 
-# requirements.txtとソースコードをコピー
-# 以前のCOPYコマンドはパスが間違っていたため修正します
-COPY ./src /app
-COPY ./requirements.txt /app
+# 環境変数を設定する
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PORT=8000
 
-# 必要なPythonパッケージをインストール
-RUN pip install -r requirements.txt
+# 依存関係のあるファイルを作業ディレクトリにコピー
+COPY requirements.txt .
 
-# 環境変数PORTの値を受け取り、デフォルトとして8080を使用
-ENV PORT=8080
+# 依存関係をインストール
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Gunicornでアプリケーションを実行
-# Flaskアプリケーションがsetup.py内で定義されているため、
-# アプリケーションのインポートパスを適切に設定する必要があります。
-# ここでの "app:app" は例としています。実際のアプリケーションのモジュールと変数名に合わせて変更してください。
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT app.setup:app"]
+# ローカルの src ディレクトリの内容を作業ディレクトリにコピー
+COPY src/ ./src/
+
+# gunicorn を使ってアプリを実行するコマンドを定義
+CMD gunicorn --bind 0.0.0.0:$PORT src.app.setup:app

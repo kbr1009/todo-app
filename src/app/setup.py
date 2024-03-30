@@ -68,7 +68,7 @@ class DIModule(Module):
         # TODO: TagのDI
 
 
-def create_app() -> Flask:
+def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.secret_key = os.environ['FLASK_SECRET_KEY']
 
@@ -79,19 +79,15 @@ def create_app() -> Flask:
         injector = Injector([DIModule()])
         configure_routing(app, login_manager, injector)
 
-    # CSRF対策
     CSRFProtect(app)
+
     return app
 
 
-def main() -> None:
-    app = create_app()
-    # デバッグモードを環境変数から設定
-    debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() in ['true', '1', 't']
-    app.debug = debug_mode
-    app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
+app = create_app()
 
 
 if __name__ == "__main__":
-    main()
-
+    debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() in ['true', '1', 't']
+    app.debug = debug_mode
+    app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))

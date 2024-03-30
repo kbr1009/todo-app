@@ -38,9 +38,33 @@ class TodoRepository(ITodoRepository):
 
     def update_todo(self, todo: Todo) -> None:
         """
-        todoを編集します。
+        既存のtodoアイテムを更新します。
         """
-        pass
+        # 既存のToDoアイテムを検索
+        todo_db = (self.db_context
+                   .query(TodoDBModel)
+                   .filter(TodoDBModel.id == todo.todo_id.value)
+                   .one_or_none())
+
+        if todo_db:
+            # todoのタイトル
+            todo_db.title = todo.todo_title.value
+            # todoの期日
+            todo_db.due_date = todo.due_date.value
+            # todoの詳細
+            todo_db.details = todo.todo_details
+
+            # カテゴリ（タグ）の更新がある場合
+            if todo.tag_ids:
+                categories = (self.db_context.query(CategoryDBModel)
+                              .filter(CategoryDBModel.id.in_(todo.tag_ids))
+                              .all())
+                todo_db.categories = categories
+
+            # 変更をデータベースに反映
+            self.db_context.commit()
+        else:
+            raise ValueError("ToDoアイテムが見つかりません。")
 
     def complete_todo(self, todo_id: str) -> None:
         """

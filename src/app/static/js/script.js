@@ -22,6 +22,7 @@ function customImageUploadHandler(event) {
 // CKEditorインスタンスに対するイベントリスナー設定
 function setUpEditor() {
     let richTextEdited = CKEDITOR.replace('todo-details', {
+        removePlugins: 'elementspath',
         toolbar: [
             { name: 'undo', items: ['Undo', 'Redo'] },
             { name: 'links', items: ['Link', 'Unlink'] },
@@ -38,6 +39,8 @@ function setUpEditor() {
     richTextEdited.on('fileUploadRequest', function(event) {
         customImageUploadHandler(event);
     });
+
+    return richTextEdited;
 }
 
 // DOMの読み込み完了後にエディタをセットアップ

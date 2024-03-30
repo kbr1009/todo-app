@@ -4,81 +4,67 @@
     <meta charset="UTF-8">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@@material-ui/core@latest/umd/material-ui.production.min.js" crossorigin></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     <title>👨‍✈️TODO | サインアップ</title>
 </head>
 <body>
 <header>
 </header>
-<div>
-    <form id="registrationForm" action="/signup" method="post">
+<div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 text-gray-700">
+    <form class="flex flex-col bg-white rounded-md shadow-lg p-12 mt-12" id="registrationForm" action="/signup" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <label for="user_name">ユーザ名</label>
-        <br>
-        <input type="text" id="user_name" name="user_name">
 
-        <br>
+        <label class="font-semibold text-xs mt-3">ユーザ名</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:none" type="text" id="user_name" name="user_name">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="UserName"></span>-->
+        <!--            </div>-->
 
-        <label for="email">ユーザ名(メールアドレス)</label>
-        <br>
-        <input type="email" id="email" name="email">
 
-        <br>
+        <label class="font-semibold text-xs mt-3">ユーザ名(メールアドレス)</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:none" type="email" id="email" name="email">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="UserName"></span>-->
+        <!--            </div>-->
 
-        <label for="password">パスワード</label>
-        <br>
-        <input type="password" id="password" name="password">
+        <label class="font-semibold text-xs mt-3">パスワード</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:none" type="password" id="password" name="password">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="Password"></span>-->
+        <!--            </div>-->
+        <label class="font-semibold text-xs mt-3">パスワード(再入力)</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:none" type="password" id="password_re" name="password">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="Password"></span>-->
+        <!--            </div>-->
 
-        <br>
-
-        <label for="password_re">パスワード(再入力)</label>
-        <br>
-        <input type="password" id="password_re" name="password_re">
-
-        <br>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div>
-                    {% for message in messages %}
-                        <span>{{ message }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        <div style="padding-top: 20px">
-            <button id="registerButton" type="submit">アカウントを登録する</button>
+        <button class="flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded-md font-semibold text-sm text-blue-100 hover:bg-blue-700" id="registerButton" type="submit">アカウントを登録する</button>
+        <div class="flex mt-6 justify-center text-xs">
+            <a class="text-blue-400 hover:text-blue-500" href="{{ url_for('login_page_load') }}">アカウントをすでに持っている</a>
         </div>
-        <div>
-            <br>
-            <a href="{{ url_for('login_page_load') }}">アカウントをすでに持っている</a>
+        <div class="line-login">
+            <!-- LINEでログインするためのリンク -->
+            <p>▼ LINEでアカウントを作成できます。</p>
+            <a href="{{ url_for('line_login') }}">
+                <img src="{{ url_for('static', filename='images/line_login_btn.png') }}" alt="Login with LINE">
+            </a>
         </div>
     </form>
-</div>
-<div class="line-login">
-    <!-- LINEでログインするためのリンク -->
-    <p>▼ LINEでアカウントを作成できます。</p>
-    <a href="{{ url_for('line_login') }}">
-        <img src="{{ url_for('static', filename='images/line_login_btn.png') }}" alt="Login with LINE">
-    </a>
-</div>
-<br>
-<div class="login-explanation">
-    <h3>***** LINEを使用したアカウントの作成 *****</h3>
-    <p>
-        LINEに登録している情報と当アプリの会員登録情報を連携することにより、IDを使ってログインすることが可能です。<br>
-        ログイン画面にある、【LINEでアカウントを作成する】をクリックしてください。<br>
-        なお、ログイン時の認証画面にて許可をいただいた場合のみ、LINEの登録情報を取得し連携します。 取得情報は以下の項目となります。<br>
-        <br>
-        ■ 表示名<br>
-        ■ メールアドレス<br>
-        <br>
-        また、LINEとの連携を解除したい場合は、マイページ内にある「他サイトとのID連携」にて【解除する】ボタンをクリックしてください。
-    </p>
+
 </div>
 </body>
 </html>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // var lastName = document.getElementById('last_name');
+    // var firstName = document.getElementById('first_name');
     var userName = document.getElementById('user_name');
     var email = document.getElementById('email');
     var password = document.getElementById('password');
@@ -87,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateButtonState() {
         submitButton.disabled =
+            // !lastName.value
+            // || !firstName.value
             !userName.value
             || !email.value
             || !password.value
@@ -95,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateButtonState();
 
+    // lastName.addEventListener('keyup', updateButtonState);
+    // firstName.addEventListener('keyup', updateButtonState);
     userName.addEventListener('keyup', updateButtonState);
     email.addEventListener('keyup', updateButtonState);
     password.addEventListener('keyup', updateButtonState);
@@ -103,84 +93,16 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <style>
     .line-login{
+        margin-top: 20px;
         padding-top: 10px;
+        display: grid;
+        place-items: center;
     }
     .line-login img{
+        margin-top: 10px;
         width: 150px;
     }
     .line-login img:hover{
         filter: brightness(90%);
     }
 </style>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="ja">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta charset="utf-8" />-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
-<!--    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>-->
-<!--    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>-->
-<!--    <script src="https://unpkg.com/@@material-ui/core@latest/umd/material-ui.production.min.js" crossorigin></script>-->
-<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>-->
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
-<!--    <title>筋トレ記録：アカウント登録</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<header>-->
-<!--</header>-->
-<!--<div class="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 text-gray-700">-->
-<!--    <form class="flex flex-col bg-white rounded-md shadow-lg p-12 mt-12" id="registrationForm" action="/signup" method="post">-->
-<!--&lt;!&ndash;        <label class="font-semibold text-xs mt-3">姓</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="text" id="last_name" name="last_name">&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;            <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;                <span asp-validation-for="UserName"></span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;            </div>&ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <label class="font-semibold text-xs mt-3">名</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="text" id="first_name" name="first_name">&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;            <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;                <span asp-validation-for="UserName"></span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;            </div>&ndash;&gt;&ndash;&gt;-->
-
-
-<!--        <label class="font-semibold text-xs mt-3">ユーザ名</label>-->
-<!--        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="text" id="user_name" name="user_name">-->
-<!--        &lt;!&ndash;            <div>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <span asp-validation-for="UserName"></span>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-
-
-<!--        <label class="font-semibold text-xs mt-3">ユーザ名(メールアドレス)</label>-->
-<!--        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="email" id="email" name="email">-->
-<!--        &lt;!&ndash;            <div>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <span asp-validation-for="UserName"></span>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-
-<!--        <label class="font-semibold text-xs mt-3">パスワード</label>-->
-<!--        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="password" id="password" name="password">-->
-<!--        &lt;!&ndash;            <div>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <span asp-validation-for="Password"></span>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        <label class="font-semibold text-xs mt-3">パスワード(再入力)</label>-->
-<!--        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="password" id="password_re" name="password">-->
-<!--        &lt;!&ndash;            <div>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <span asp-validation-for="Password"></span>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        {% if failed_msg %}-->
-<!--        <div>-->
-<!--            <span asp-validation-for="Password">{{ failed_msg }}</span>-->
-<!--        </div>-->
-<!--        {% endif %}-->
-
-<!--        <button class="flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded-md font-semibold text-sm text-blue-100 hover:bg-blue-700" id="registerButton" type="submit">アカウントを登録する</button>-->
-<!--        <div class="flex mt-6 justify-center text-xs">-->
-<!--            <a class="text-blue-400 hover:text-blue-500" href="{{ url_for('login_page_load') }}">アカウントをすでに持っている</a>-->
-<!--        </div>-->
-<!--    </form>-->
-
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

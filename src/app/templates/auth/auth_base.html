@@ -27,36 +27,36 @@
         {% endif %}
     {% endwith %}
     <form class="flex flex-col bg-white rounded-md shadow-lg p-12 mt-12 font-err" id="loginForm" action="/login" method="post">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-            <label class="font-semibold text-xs">ユーザ名またはメールアドレス</label>
-            <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="text" id="upn" name="upn">
-<!--            <div>-->
-<!--                <span asp-validation-for="UserName"></span>-->
-<!--            </div>-->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label class="font-semibold text-xs">ユーザ名またはメールアドレス</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="text" id="upn" name="upn">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="UserName"></span>-->
+        <!--            </div>-->
 
-            <label class="font-semibold text-xs mt-3">パスワード</label>
-            <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="password" id="password" name="password">
-            <!--            <div>-->
-            <!--                <span asp-validation-for="Password"></span>-->
-            <!--            </div>-->
+        <label class="font-semibold text-xs mt-3">パスワード</label>
+        <input class="flex items-center h-12 px-4 w-64 bg-gray-100 mt-2 rounded-md focus:outline-none focus:ring-2" type="password" id="password" name="password">
+        <!--            <div>-->
+        <!--                <span asp-validation-for="Password"></span>-->
+        <!--            </div>-->
 
-            <button class="flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded-md font-semibold text-sm text-blue-100 hover:bg-blue-700" id="loginButton" type="submit">ログイン</button>
+        <button class="flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded-md font-semibold text-sm text-blue-100 hover:bg-blue-700" id="loginButton" type="submit">ログイン</button>
 
-            <div class="flex mt-6 justify-center text-xs">
-                <a class="text-blue-400 hover:text-blue-500" href="{{ url_for('sign_up_page_load') }}">アカウントを作成する</a>
-            </div>
+        <div class="flex mt-6 justify-center text-xs">
+            <a class="text-blue-400 hover:text-blue-500" href="{{ url_for('sign_up_page_load') }}">アカウントを作成する</a>
+        </div>
 
-            <div class="flex mt-6 justify-center text-xs">
-                <a class="text-blue-400 hover:text-blue-500" href="#">パスワードを忘れた</a>
-            </div>
-            <div class="line-login">
-                <a href="{{ url_for('line_login') }}">
-                    <img src="{{ url_for('static', filename='images/line_login_btn.png') }}" alt="Login with LINE">
-                </a>
-            </div>
-        </form>
+        <div class="flex mt-6 justify-center text-xs">
+            <a class="text-blue-400 hover:text-blue-500" href="#">パスワードを忘れた</a>
+        </div>
+        <div class="line-login">
+            <a href="{{ url_for('line_login') }}">
+                <img src="{{ url_for('static', filename='images/line_login_btn.png') }}" alt="Login with LINE">
+            </a>
+        </div>
+    </form>
 
-    </div>
+</div>
 </body>
 </html>
 

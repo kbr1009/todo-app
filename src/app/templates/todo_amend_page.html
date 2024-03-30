@@ -1,23 +1,30 @@
 {% extends "base.html" %}
 {% block body %}
+    <!-- ポップアップのマークアップ、初期状態では非表示 -->
+    <div id="popup" class="popup hidden">
+        <p id="popupMessage"></p>
+    </div>
+
     <div class="back-todo-past-to-home">
         <a href="{{ url_for('home_page_load') }}">
             <i class="fas fa-arrow-left">戻る</i>
         </a>
     </div>
-    <form action="/todo" method="put" class="todo-form">
+    <form id="todo-form" action="/todo/amend/{{ todo.todo_id }}" method="POST" class="todo-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="todo-title">タイトル</label>
-            <input type="text" id="todo-title" name="todo_title">
+            <input type="text" id="todo-title" name="todo_title" value="{{ todo.todo_title }}">
         </div>
         <div class="form-group">
             <label for="todo-details">詳細</label>
-            <textarea id="todo-details" name="todo_detail" rows="8"></textarea>
+            <textarea id="todo-details" name="todo_detail" rows="8">
+                {{ todo.todo_details | safe }}
+            </textarea>
         </div>
         <div class="form-group">
             <label for="todo-due-date">期日</label>
-            <input type="datetime-local" id="todo-due-date" name="due_date_time">
+            <input type="datetime-local" id="todo-due-date" name="due_date_time" value="{{ todo.due_date }}">
         </div>
         <div class="form-group">
             <button type="submit" class="submit-button">保存</button>
@@ -26,4 +33,82 @@
 
     <!-- CKEditorのスクリプトを追加 -->
     <script src="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js"></script>
+    <script>
+        function showPopup(message) {
+            const popup = document.getElementById('popup');
+            const popupMessage = document.getElementById('popupMessage');
+
+            // メッセージを設定
+            popupMessage.textContent = message;
+
+            // ポップアップを表示
+            popup.classList.remove('hidden');
+            popup.classList.add('show');
+
+            // 3秒後にポップアップを非表示にする
+            setTimeout(() => {
+                popup.classList.remove('show');
+                popup.classList.add('hidden');
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // リッチテキストエディターを更新
+            const todoDetails = document.getElementById('todo-details');
+
+            document.getElementById('todo-form').addEventListener('submit', function(e) {
+                e.preventDefault(); // フォームのデフォルトの送信を防ぐ
+
+                let formData = new FormData(this); // フォームのデータを取得
+                let actionUrl = this.getAttribute('action'); // フォームのaction属性からURLを取得
+
+                // CKEditorからデータを取得してFormDataに追加
+                let editorData = CKEDITOR.instances['todo-details'].getData();
+                formData.set('todo_detail', editorData); // 'todo_detail'はテキストエリアのname属性に合わせてください
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    body: formData, // フォームのデータ
+                    credentials: 'same-origin', // CSRFトークンが必要な場合
+                    headers: {
+                        'CSRF-Token': formData.get('csrf_token') // CSRFトークンをヘッダに追加
+                    }
+                })
+                    .then(response => {
+                        if(response.ok) {
+                            showPopup('操作が成功しました。'); // 成功メッセージを表示
+                        } else {
+                            throw new Error('Something went wrong');
+                        }
+                    })
+                    .catch(error => {
+                        showPopup('エラーが発生しました。'); // エラーメッセージを表示
+                    });
+            });
+        });
+    </script>
+
 {% endblock %}
+<style>
+    .popup {
+        position: fixed;
+        top: -100px; /* 初期位置を画面上部から外に設定 */
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        z-index: 1000;
+        transition: top 0.5s ease; /* スライドダウンのアニメーション */
+    }
+
+    .popup.hidden {
+        visibility: hidden;
+    }
+
+    .popup.show {
+        top: 0; /* ポップアップを表示する位置 */
+        visibility: visible;
+    }
+</style>

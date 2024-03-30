@@ -46,10 +46,10 @@ class AmendTodoCommand(IAmendTodoCommand):
 
         try:
             # ドメインオブジェクトの編集メソッドを使用してTodoを編集
-            todo.amend_todo(TodoTitle(value=request.todo_title),
-                            DueDate(value=request.due_date,
-                                    registration_date=datetime.now()),
-                            request.todo_details, request.tag_ids)
+            todo.amend_todo(todo_title=TodoTitle(value=request.todo_title),
+                            due_date=DueDate(value=request.due_date, registration_date=datetime.now()),
+                            todo_details=request.todo_details,
+                            tag_ids=request.tag_ids)
         except Exception as e:
             raise ValueError(f"{e}")
 

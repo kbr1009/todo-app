@@ -4,7 +4,7 @@ import hashlib
 import requests
 import jwt
 import traceback
-from flask import Flask, jsonify, render_template, request, redirect, url_for, Response, flash
+from flask import Flask, jsonify, render_template, request, redirect, url_for, Response, flash, session
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import generate_csrf, CSRFError
 from injector import Injector
@@ -93,6 +93,28 @@ def amend_todo_page_load(todo_id: str, get_todo_by_todo_id_query: IGetTodoByTodo
     """
     todo: TodoDataResponse = get_todo_by_todo_id_query.execute(todo_id=todo_id)
     return render_template('todo_amend_page.html', csrf_token=generate_csrf(), todo=todo)
+
+
+def amend_todo(todo_id: str, amend_todo_command: IAmendTodoCommand):
+    todo_title: str = request.form.get('todo_title')
+    todo_detail: str = request.form.get('todo_detail')
+    str_due_date_time: str = request.form.get('due_date_time')
+
+    due_date_time: datetime = (datetime.strptime(
+        str_due_date_time,
+        '%Y-%m-%dT%H:%M')
+    ) if str_due_date_time else None
+
+    amend_todo_request: AmendTodoRequest = AmendTodoRequest(todo_id=todo_id, todo_title=todo_title,
+                                                            todo_details=todo_detail, due_date=due_date_time)
+    try:
+        amend_todo_command.execute(amend_todo_request)
+    except Exception as e:
+        logging.error(f"Error creating TODO: {e}\n{traceback.format_exc()}")
+        flash(f"Todoの登録に失敗しました。\n{str(e)}")
+        return jsonify({'message': f"Todoの更新に失敗しました。\n{str(e)}"}), 500
+
+    return jsonify({'message': 'Todo updated successfully'}), 200
 
 
 def delete_todo(todo_id: str, delete_todo_command: IDeleteTodoCommand):
@@ -223,6 +245,9 @@ def line_callback(
 
 def execute_logout():
     logout_user()
+    # セッションにあるメッセージをクリア
+    if '_flashes' in session:
+        session.pop('_flashes')
     return redirect(url_for('login_page_load'))
 
 
@@ -301,11 +326,17 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
     def _post_new_todo():
         return create_new_todo(create_todo_command=injector.get(ICreateNewTodoCommand))
 
+    def _amend_todo_page_load(todo_id: str):
+        return amend_todo_page_load(todo_id=todo_id, get_todo_by_todo_id_query=injector.get(IGetTodoByTodoIdQuery))
+
+    def _amend_todo(todo_id: str):
+        return amend_todo(todo_id=todo_id, amend_todo_command=injector.get(IAmendTodoCommand))
+
     def _delete_todo(todo_id: str):
-        return delete_todo(todo_id, delete_todo_command=injector.get(IDeleteTodoCommand))
+        return delete_todo(todo_id=todo_id, delete_todo_command=injector.get(IDeleteTodoCommand))
 
     def _complete_todo(todo_id: str):
-        return complete_todo(todo_id, complete_todo_command=injector.get(ICompleteTodoCommand))
+        return complete_todo(todo_id=todo_id, complete_todo_command=injector.get(ICompleteTodoCommand))
 
     def _api_post_todo():
         return api_post_todo(create_todo_command=injector.get(ICreateNewTodoCommand))
@@ -320,6 +351,8 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
 
     # ログイン画面のビューをflask-loginにインプットする
     login_manager.login_view = "login_page_load"
+    # ログインが必要なメッセージを非表示にする
+    login_manager.login_message = None
     # flask-loginでログインのユーザをロードする
     login_manager.user_loader(_load_login_user)
 
@@ -338,6 +371,8 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
     # TODOのルーティング
     app.route('/todo', methods=['GET'])(create_todo_page_load)
     app.route('/todo', methods=['POST'])(_post_new_todo)
+    app.route('/todo/amend/<string:todo_id>', methods=['GET'])(_amend_todo_page_load)
+    app.route('/todo/amend/<string:todo_id>', methods=['POST'])(_amend_todo)
     app.route('/todo/delete/<string:todo_id>', methods=['POST'])(_delete_todo)
     app.route('/todo/complete/<string:todo_id>', methods=['POST'])(_complete_todo)
 

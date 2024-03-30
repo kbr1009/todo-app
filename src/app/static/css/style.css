@@ -9,7 +9,8 @@
         font-family: Arial, sans-serif;
         display: flex;
         justify-content: center;
-        background-color: snow;
+        /*background-color: snow;*/
+        background-color: whitesmoke;
     }
 
     .header {
@@ -39,7 +40,7 @@
 
     .container {
         width: 100%;
-        max-width: 1000px;
+        max-width: 800px;
         padding: 20px;
         margin: 50px auto 0; /* ヘッダーの高さに応じて調整 */
         box-sizing: border-box;
@@ -61,8 +62,12 @@
         margin-right: 10px; /* ボタンとの間隔 */
         padding: 10px; /* 入力欄のパディング */
         font-size: 16px; /* フォントサイズを16px以上に設定 */
-        border: 1px solid #ccc; /* 枠線 */
+        border: 1px solid #ffffff; /* 枠線 */
         border-radius: 4px; /* 角丸 */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .search-bar input[type="text"]:focus {
+       outline: none;
     }
 
     .search-bar button {
@@ -75,6 +80,7 @@
         white-space: nowrap; /* ボタン内のテキストを折り返さない */
         font-size: 16px; /* フォントサイズを16px以上に設定 */
         font-weight: bold;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .search-bar button:hover {
@@ -93,6 +99,7 @@
         outline: none;
         cursor: pointer;
         padding: 10px; /* ボタンの内側の余白 */
+        margin-bottom: 5px;
         transition: 0.3s;
         font-size: 17px;
         font-weight: bold;
@@ -100,11 +107,15 @@
     }
 
     .tab-link:first-child {
-        border-top-left-radius: 5px; /* 未完了ボタンの左上にのみ丸みを付ける */
+        border-top-left-radius: 8px; /* 未完了ボタンの左上にのみ丸みを付ける */
+        border-bottom-left-radius: 8px; /* 未完了ボタンの左上にのみ丸みを付ける */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
     }
 
     .tab-link:last-child {
         border-top-right-radius: 5px; /* 完了ボタンの右上にのみ丸みを付ける */
+        border-bottom-right-radius: 5px; /* 完了ボタンの右上にのみ丸みを付ける */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
     }
 
     .tab-link:hover {
@@ -122,13 +133,13 @@
 
     .tab-content {
         display: none;
-        padding: 20px;
-        border: 1px solid #ccc;
+        /*padding: 20px;*/
+        /*border: 1px solid #ccc;*/
         /*
         background-color: #fff;
          */
-        border-bottom-left-radius: 5px; /* 下側左の丸み */
-        border-bottom-right-radius: 5px; /* 下側右の丸み */
+        /*border-bottom-left-radius: 5px; !* 下側左の丸み *!*/
+        /*border-bottom-right-radius: 5px; !* 下側右の丸み *!*/
     }
     .tab-content a{
         font-weight: bold;
@@ -154,13 +165,14 @@
     .todo-item {
         display: block;
         padding: 20px;
-        margin: 10px 0;
+        margin: 5px 0;
         background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 5px; /* ToDoリスト項目の角を丸くする */
+        /*border: 1px solid #ddd;*/
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border-radius: 8px; /* ToDoリスト項目の角を丸くする */
         text-decoration: none;
         font-weight: bold;
-        color: black;
+        color: dimgray;
         cursor: pointer;
     }
 
@@ -195,10 +207,10 @@
     }
 
     .todo-item .due-date{
-        color: red;
+        color: crimson;
     }
     .todo-item .non-due-date{
-        color: black;
+        color: grey;
     }
 
     .todo-item:hover {
@@ -314,9 +326,14 @@
     .form-group textarea {
         width: 100%; /* 入力フィールドの幅をコンテナに合わせる */
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid white;
         border-radius: 4px;
         font-size: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-group input:focus{
+        outline: none;
     }
 
     .submit-button {
@@ -328,6 +345,7 @@
         border-radius: 4px;
         cursor: pointer;
         font-size: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     .submit-button:hover {

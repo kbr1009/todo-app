@@ -44,7 +44,7 @@
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form>
-                                <form action="/" method="get" class="todo-edit-btn-form">
+                                <form action="/todo/amend/{{ todo.todo_id }}" method="get" class="todo-edit-btn-form">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <button class="todo-edit-btn">
                                         <i class="fas fa-edit"></i>
