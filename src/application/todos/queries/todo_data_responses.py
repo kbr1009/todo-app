@@ -12,5 +12,6 @@ class TodoDataResponse:
     registration_date: datetime
     todo_details: Optional[str] = None
     due_date: Optional[datetime] = None
+    completed_date: Optional[datetime] = None
     tags: Optional[List[TagDataResponse]] = field(default_factory=list)
 
