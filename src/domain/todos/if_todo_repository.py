@@ -13,7 +13,7 @@ class ITodoRepository(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def complete_todo(self, todo_id: str) -> None:
+    def complete_todo(self, todo: Todo) -> None:
         raise NotImplementedError()
 
     @abstractmethod
