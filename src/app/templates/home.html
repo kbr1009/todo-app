@@ -78,12 +78,6 @@
         {% if completed_todos %}
             <ul>
                 {% for todo in completed_todos %}
-{#                    <li>#}
-{#                        <a href="#" class="todo-item">{{ todo.todo_title }}#}
-{#                            <p>登録日：{{ todo.registration_date }}<br>完了日✅：2024/03/34</p>#}
-{#                        </a>#}
-{#                    </li>#}
-
                     <li>
                         <div class="todo-item" onclick="toggleTodoDetails(event)">{{ todo.todo_title }}
                             {% if todo.todo_details %}
@@ -91,7 +85,7 @@
                             {% else %}
                                 <p class="todo-detail" hidden>Todoの詳細はありません。</p>
                             {% endif %}
-                            <p>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}<br>完了日✅：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                            <p>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}<br>完了日：{{ todo.completed_date.strftime('%Y/%m/%d %H:%M') }}</p>
                             <div class="todo-edit-buttons" hidden>
                                 <form action="/todo/delete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
