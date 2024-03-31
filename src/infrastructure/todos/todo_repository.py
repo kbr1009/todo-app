@@ -66,15 +66,16 @@ class TodoRepository(ITodoRepository):
         else:
             raise ValueError("ToDoアイテムが見つかりません。")
 
-    def complete_todo(self, todo_id: str) -> None:
+    def complete_todo(self, todo: Todo) -> None:
         """
-        todo_idをキーにTODOの完了ステータスをTrueにします。
+        todo_idをキーにTODOの完了ステータス/完了時刻を変更します。
         """
         todo = (self.db_context.query(TodoDBModel)
-                .filter(TodoDBModel.id == todo_id)
+                .filter(TodoDBModel.id == todo.todo_id.value)
                 .first())
         if todo:
-            todo.is_completed = True
+            todo.is_completed = todo.is_completed
+            todo.completed_at = todo.completed_at
             self.db_context.commit()
 
     def delete_todo(self, todo_id: str) -> None:
