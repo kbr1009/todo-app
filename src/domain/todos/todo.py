@@ -62,3 +62,4 @@ class Todo:
     def undo_completion(self):
         self.is_completed = False
         self.completed_at = None
+

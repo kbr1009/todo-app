@@ -70,12 +70,14 @@ class TodoRepository(ITodoRepository):
         """
         todo_idをキーにTODOの完了ステータス/完了時刻を変更します。
         """
-        todo = (self.db_context.query(TodoDBModel)
-                .filter(TodoDBModel.id == todo.todo_id.value)
-                .first())
+        # 既存のToDoアイテムを検索
+        todo_db = (self.db_context
+                   .query(TodoDBModel)
+                   .filter(TodoDBModel.id == todo.todo_id.value)
+                   .one_or_none())
         if todo:
-            todo.is_completed = todo.is_completed
-            todo.completed_at = todo.completed_at
+            todo_db.is_completed = todo.is_completed
+            todo_db.completed_at = todo.completed_at
             self.db_context.commit()
 
     def delete_todo(self, todo_id: str) -> None:

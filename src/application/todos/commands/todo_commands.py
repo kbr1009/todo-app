@@ -84,7 +84,6 @@ class CompleteTodoCommand(ICompleteTodoCommand):
         todo.complete_todo()
 
         try:
-            # TODO:  todoオブジェクトを渡すように再実装する
             self._repository.complete_todo(todo)
         except Exception as e:
             print(e)
