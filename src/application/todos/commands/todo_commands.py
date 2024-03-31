@@ -80,11 +80,12 @@ class CompleteTodoCommand(ICompleteTodoCommand):
         if todo is None:
             raise ValueError(f"完了にするTodoが見つかりません。")
 
+        # ドメイン（Todoを完了にする）
         todo.complete_todo()
 
         try:
             # TODO:  todoオブジェクトを渡すように再実装する
-            self._repository.complete_todo(todo.todo_id.value)
+            self._repository.complete_todo(todo)
         except Exception as e:
             print(e)
             raise ValueError(f"システムエラー：Todoの完了処理に失敗しました。")
