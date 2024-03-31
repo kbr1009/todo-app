@@ -141,6 +141,31 @@
         /*border-bottom-left-radius: 5px; !* 下側左の丸み *!*/
         /*border-bottom-right-radius: 5px; !* 下側右の丸み *!*/
     }
+
+    .tab-content .failed-alart-layer{
+        margin-top: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: snow;
+        border: 2px solid red;
+        border-radius: 8px;
+    }
+    .failed-alart-layer span{
+        color: red;
+    }
+
+    .tab-content .success-info-layer{
+        margin-top: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: snow;
+        border: 2px solid green;
+        border-radius: 8px;
+    }
+    .success-info-layer span{
+        color: green;
+    }
+
     .tab-content a{
         font-weight: bold;
     }

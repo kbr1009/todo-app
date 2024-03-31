@@ -14,6 +14,14 @@
 
     <!-- TodoList -->
     <div id="Incomplete" class="tab-content">
+{#        <div class="failed-alart-layer">#}
+{#            <span class="fa-solid fa-circle-exclamation"></span>#}
+{#            <span>削除に失敗しました。</span>#}
+{#        </div>#}
+{#        <div class="success-info-layer">#}
+{#            <span class="fa-solid fa-circle-check"></span>#}
+{#            <span>削除に成功しました。</span>#}
+{#        </div>#}
         {% if incomplete_todos %}
             <ul>
                 {% for todo in incomplete_todos %}
@@ -111,7 +119,5 @@
     <a href="{{ url_for('create_todo_page_load') }}" style="text-decoration: none; color: inherit;">
         <div class="add-todo-button" id="add-todo-button">+</div>
     </a>
-
-
 
 {% endblock %}
