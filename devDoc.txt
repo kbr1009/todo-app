@@ -1,0 +1,10 @@
+
+# Docker buid
+docker build -t test-flask-todo .
+
+# Dcoker Run
+docker run --name test-flask-todo-app -p 8080:8080 --env-file ./.env test-flask-todo
+
+# push google cloud
+docker tag flask-web-app-img asia-northeast1-docker.pkg.dev/kbr-systems/todo-app/flask-web-app-img
+docker push asia-northeast1-docker.pkg.dev/kbr-systems/todo-app/flask-web-app-img
