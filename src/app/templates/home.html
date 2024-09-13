@@ -36,13 +36,13 @@
 
                             <!-- 期日 -->
                             {% if todo.due_date %}
-                                <p class="due-date">期日：{{ todo.due_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                                <p class="due-date">期日：{{ todo.due_date.strftime('%Y/%m/%d %H:%M') }} ({{ todo.due_date|japanese_day }})</p>
                             {% else %}
                                 <p class="due-date non-due-date">期日なし</p>
                             {% endif %}
 
                             <!-- 登録日 -->
-                            <p class="reg-todo-date" hidden>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                            <p class="reg-todo-date" hidden>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }} ({{ todo.registration_date|japanese_day }})</p>
 
                             <!-- 編集ボタン -->
                             <div class="todo-edit-buttons" hidden>
@@ -85,7 +85,7 @@
                             {% else %}
                                 <p class="todo-detail" hidden>Todoの詳細はありません。</p>
                             {% endif %}
-                            <p>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }}<br>完了日：{{ todo.completed_date.strftime('%Y/%m/%d %H:%M') }}</p>
+                            <p>登録日：{{ todo.registration_date.strftime('%Y/%m/%d %H:%M') }} ({{ todo.registration_date|japanese_day }})<br>完了日：{{ todo.completed_date.strftime('%Y/%m/%d %H:%M') }} ({{ todo.completed_date|japanese_day }})</p>
                             <div class="todo-edit-buttons" hidden>
                                 <form action="/todo/delete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">

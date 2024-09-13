@@ -308,6 +308,21 @@ def send_sw():
     return send_from_directory('static', 'sw.js')
 
 
+# カスタムフィルターの定義
+def day_of_week_in_japanese(dt):
+    days_of_week = {
+        'Monday': '月',
+        'Tuesday': '火',
+        'Wednesday': '水',
+        'Thursday': '木',
+        'Friday': '金',
+        'Saturday': '土',
+        'Sunday': '日'
+    }
+    english_day = dt.strftime("%A")
+    return days_of_week[english_day]
+
+
 def configure_routing(app: Flask, login_manager: LoginManager, injector: Injector) -> None:
     def _load_login_user(login_user_id: str) -> LoginUser:
         """
@@ -369,6 +384,8 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
 
     # 以下ルーティング
     app.errorhandler(CSRFError)(_handle_csrf_error)
+    # フィルターをJinjaに登録
+    app.jinja_env.filters['japanese_day'] = day_of_week_in_japanese
     # 通常ログイン
     app.route('/', methods=['GET'], endpoint='home_page_load')(_home_page_load)
     app.route('/signup', methods=['GET'])(sign_up_page_load)
