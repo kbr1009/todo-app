@@ -23,6 +23,7 @@ function customImageUploadHandler(event) {
 function setUpEditor() {
     let richTextEdited = CKEDITOR.replace('todo-details', {
         removePlugins: 'elementspath',
+        height: 400,
         toolbar: [
             { name: 'undo', items: ['Undo', 'Redo'] },
             { name: 'links', items: ['Link', 'Unlink'] },

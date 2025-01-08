@@ -28,4 +28,3 @@ class IDeleteTodoCommand(ABC):
     def execute(self, request: DeleteTodoRequest) -> None:
         raise NotImplementedError()
 
-

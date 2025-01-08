@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb953df6-ce86-431d-a295-bb7517c51c8b" name="変更" comment="add docker-compose">
+    <list default="true" id="eb953df6-ce86-431d-a295-bb7517c51c8b" name="変更" comment="fix">
+      <change afterPath="$PROJECT_DIR$/src/app/templates/todo_clone_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/routers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/routers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/static/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/templates/todo_amend_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/templates/todo_amend_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/templates/todo_post_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/templates/todo_post_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/todos/commands/if_todo_commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/todos/commands/if_todo_commands.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +22,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -23,24 +37,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Docker Run.executor&quot;: &quot;Run&quot;,
-    &quot;Python.App Run.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/81804/Documents/自分用システム/01.todoアプリ/todo-app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Docker Run.executor": "Run",
+    "Python.App Run.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "C:/Users/81804/Documents/自分用システム/01.todoアプリ/todo-app/src/app/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Docker.Docker Run">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\81804\Documents\自分用システム\01.todoアプリ\todo-app\src\app\templates" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.App Run">
     <configuration name="App Run" type="PythonConfigurationType" factoryName="Python">
       <module name="todo-app" />
       <option name="ENV_FILES" value="$PROJECT_DIR$/.env" />
@@ -104,6 +123,12 @@
       <workItem from="1726244968165" duration="307000" />
       <workItem from="1726300120073" duration="81000" />
       <workItem from="1726471658520" duration="1211000" />
+      <workItem from="1726853302723" duration="1324000" />
+      <workItem from="1726921382698" duration="651000" />
+      <workItem from="1728821320773" duration="1000" />
+      <workItem from="1735530017185" duration="14000" />
+      <workItem from="1736304804638" duration="6000" />
+      <workItem from="1736304822540" duration="13912000" />
     </task>
     <task id="LOCAL-00001" summary="add docker-compose">
       <option name="closed" value="true" />
@@ -113,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726250498608</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix">
+      <option name="closed" value="true" />
+      <created>1726853349216</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726853349216</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,19 +157,31 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix" />
     <MESSAGE value="Todoリストの期日と登録日に曜日を表示するようにした。" />
     <MESSAGE value="add docker-compose" />
-    <option name="LAST_COMMIT_MESSAGE" value="add docker-compose" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/todo_app$App_Run.coverage" NAME="App Run のカバレッジ結果" MODIFIED="1726248285637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/todo_app$App_Run.coverage" NAME="App Run のカバレッジ結果" MODIFIED="1736322716862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

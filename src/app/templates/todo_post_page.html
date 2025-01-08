@@ -2,17 +2,22 @@
 {% block body %}
     <div class="back-todo-past-to-home">
         <a href="{{ url_for('home_page_load') }}">
-            <i class="fas fa-arrow-left">戻る</i>
+            <i class="fa-solid fa-circle-left"> 戻る</i>
         </a>
     </div>
+
+    <div class="report-status">
+        <i class="fa-solid fa-pen"> 新規作成中...</i>
+    </div>
+
     <form action="/todo" method="post" class="todo-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
-            <label for="todo-title">タイトル</label>
+            <label for="todo-title"></label>
             <input type="text" id="todo-title" name="todo_title">
         </div>
         <div class="form-group">
-            <label for="todo-details">詳細</label>
+            <label for="todo-details"></label>
             <textarea id="todo-details" name="todo_detail" rows="8"></textarea>
         </div>
         <div class="form-group">
@@ -26,4 +31,14 @@
 
     <!-- CKEditorのスクリプトを追加 -->
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                const element = document.getElementById("cke_notifications_area_todo-details");
+                if (element) {
+                    element.hidden = true; // hidden 属性を設定
+                }
+            }, 200); // 1000ms = 1秒
+        });
+    </script>
 {% endblock %}

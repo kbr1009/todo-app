@@ -28,7 +28,6 @@ from src.application.todos.queries.if_todo_query_services import *
 from src.application.todos.commands.if_todo_commands import *
 from src.application.todos.commands.todo_requests import *
 
-
 # 参考：https://qiita.com/yuta6234/items/95425ea862f4e9ab6def
 # flask csrf https://agohack.com/create-form-with-flask-wtf/
 # flask-login https://tomokichi.blog/%E3%80%90python%E3%80%91%E3%83%AD%E3%82%B0%E3%82%A4%E3%83%B3%E6%A9%9F%E8%83%BD%E3%82%92%E4%BD%9C%E3%82%8B%E3%80%8Cflask-login%E3%80%8D%E2%91%A4/
@@ -140,6 +139,15 @@ def complete_todo(todo_id: str, complete_todo_command: ICompleteTodoCommand):
         print(traceback.format_exc())
 
     return redirect(url_for('home_page_load'))
+
+
+def clone_todo_page_load(todo_id: str, get_todo_by_todo_id_query: IGetTodoByTodoIdQuery):
+    """
+    todoを複製するページのロード機能
+    todo_idをキーにTodoを取得し返す
+    """
+    todo: TodoDataResponse = get_todo_by_todo_id_query.execute(todo_id=todo_id)
+    return render_template('todo_clone_page.html', csrf_token=generate_csrf(), todo=todo)
 
 
 def api_get_csrf_token():
@@ -364,6 +372,9 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
     def _complete_todo(todo_id: str):
         return complete_todo(todo_id=todo_id, complete_todo_command=injector.get(ICompleteTodoCommand))
 
+    def _clone_todo_page_load(todo_id: str):
+        return clone_todo_page_load(todo_id=todo_id, get_todo_by_todo_id_query=injector.get(IGetTodoByTodoIdQuery))
+
     def _api_post_todo():
         return api_post_todo(create_todo_command=injector.get(ICreateNewTodoCommand))
 
@@ -403,7 +414,7 @@ def configure_routing(app: Flask, login_manager: LoginManager, injector: Injecto
     app.route('/todo/amend/<string:todo_id>', methods=['POST'])(_amend_todo)
     app.route('/todo/delete/<string:todo_id>', methods=['POST'])(_delete_todo)
     app.route('/todo/complete/<string:todo_id>', methods=['POST'])(_complete_todo)
-
+    app.route('/todo/clone/<string:todo_id>', methods=['GET'])(_clone_todo_page_load)
 
     # API
     # csrfトークンの取得 TODO ローンチする際は削除する

@@ -146,7 +146,7 @@
         margin-top: 5px;
         margin-bottom: 10px;
         padding: 10px;
-        background-color: snow;
+        background-color: whitesmoke;
         border: 2px solid red;
         border-radius: 8px;
     }
@@ -158,7 +158,7 @@
         margin-top: 5px;
         margin-bottom: 10px;
         padding: 10px;
-        background-color: snow;
+        background-color: whitesmoke;
         border: 2px solid green;
         border-radius: 8px;
     }
@@ -197,7 +197,7 @@
         border-radius: 8px; /* ToDoリスト項目の角を丸くする */
         text-decoration: none;
         font-weight: bold;
-        color: dimgray;
+        color: #505050;
         cursor: pointer;
     }
 
@@ -227,6 +227,11 @@
     }
     .todo-edit-buttons .todo-complete-btn{
         background-color: #4CAF50;
+        color: white;
+        margin-left: 3px;
+    }
+    .todo-edit-buttons .todo-copy-btn{
+        background-color: #a9a9a9;
         color: white;
         margin-left: 3px;
     }
@@ -335,6 +340,10 @@
         font-weight: bold;
         color: black;
         cursor: pointer;
+    }
+
+    .report-status {
+        color: green;
     }
 
     .form-group {

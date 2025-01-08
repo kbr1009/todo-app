@@ -52,18 +52,25 @@
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form>
-                                <form action="/todo/amend/{{ todo.todo_id }}" method="get" class="todo-edit-btn-form">
+                                <form action="/todo/amend/{{ todo.todo_id }}" method="GET" class="todo-edit-btn-form">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <button class="todo-edit-btn">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </form>
+                                <form action="/todo/clone/{{ todo.todo_id }}" method="GET" class="todo-edit-btn-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                    <button class="todo-copy-btn">
+                                        <i class="fa-solid fa-clone"></i>
+                                    </button>
+                                </form>
                                 <form action="/todo/complete/{{ todo.todo_id }}" method="POST" class="todo-edit-btn-form">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <button class="todo-complete-btn">
-                                        <i class="fas fa-check"></i>
+                                        <i class="fa-solid fa-check"></i>
                                     </button>
                                 </form>
+
                             </div>
                         </div>
                     </li>
